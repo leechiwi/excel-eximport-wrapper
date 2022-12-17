@@ -61,9 +61,4 @@ public class ExcelController {
     public void fill(HttpServletRequest request, HttpServletResponse response,String ids){
         excelService.fillExcelData(request, response);
     }
-    @GetMapping("/test")
-    @ResponseBody
-    public String test(HttpServletRequest request, HttpServletResponse response,String ids){
-        return "test";
-    }
 }
