@@ -17,8 +17,14 @@ excel-eximport-wrapper是针对现有数据进行的导入导出操作,现有数
 
 #### 使用说明
 
-1.  xxxx待补充
-2.  xxxx
+1.  导出功能</br>
+1.1 EasyExcelUtil.writeToExcel(List<ExcelSheetElement> sheetList, OutputStream outputStream)
+     </br>sheetList为excel中每一个sheet的属性，包括sheet上的数据、sheet名称、sheet上每个table个性化的样式、合并单元格等个性化设置，具体参照ExcelSheetElement属性,以及演示工程seivice层代码</br>
+1.2 EasyExcelUtil.fillWithTemplate(String targetFilename,ExcelFillElement excelFillElement, OutputStream outputStream)
+</br>excelFillElement为excel模板导出数据对，包括导出的数据象、单元格样式、合并单元格等个性化设置，OutputStream 为导出后excel文件存放位置，具体参照ExcelFillElement 属性,以及演示工程seivice层代码</br>
+2.  导出功能
+
+
 3.  xxxx
 
 #### 参与贡献
