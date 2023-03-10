@@ -22,6 +22,8 @@ import com.leechiwi.excel.model.ExcelFillElement;
 import com.leechiwi.excel.model.ExcelSheetElement;
 import org.apache.commons.collections.CollectionUtils;
 
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -33,6 +35,9 @@ public class EasyExcelUtil {
     public static void exportWebExcel(List<ExcelSheetElement> sheetList, HttpServletRequest request, HttpServletResponse response, String filename){
         OutputStream outputStream = getOutputStream(filename, request, response);
         writeToExcel(sheetList,outputStream);
+    }
+    public static void exportWebExcelInZip(List<List<ExcelSheetElement>> excelList,List<String> excelFileNames, HttpServletResponse response, String filename){
+        writeToExcelInZip(excelList,excelFileNames, getZipOutputStream(filename, response));
     }
     public static void writeToExcel(List<ExcelSheetElement> sheetList, OutputStream outputStream){
         ExcelWriter excelWriter = EasyExcel.write(outputStream).build();
@@ -86,6 +91,18 @@ public class EasyExcelUtil {
         }
         excelWriter.finish();
     }
+    public static void writeToExcelInZip(List<List<ExcelSheetElement>> excelList,List<String> excelFileNames, OutputStream zipOutputStream){
+        if(CollectionUtils.isEmpty(excelList)){
+            return;
+        }
+        List<byte[]> streamList = new ArrayList<>();
+        for (List<ExcelSheetElement> excelSheetElements : excelList) {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            writeToExcel(excelSheetElements,byteArrayOutputStream);
+            streamList.add(byteArrayOutputStream.toByteArray());
+        }
+        Zip.zip(zipOutputStream,streamList,excelFileNames,".xlsx");
+    }
     /**
      * 自定义数据且自定义表头单个sheet导出
      * @param data
@@ -118,6 +135,19 @@ public class EasyExcelUtil {
             e.printStackTrace();
         }
         return outputStream;
+    }
+    private static OutputStream getZipOutputStream(String filename,HttpServletResponse response){
+        OutputStream out = null;
+        try {
+            response.reset();
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment;filename=" + filename+".zip");
+            out = response.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out;
     }
 
     /**
@@ -182,7 +212,7 @@ public class EasyExcelUtil {
         excelReader.finish();
         return result;
     }
-    public static void getWebExcelByfillWithTemplate(String targetFilename,ExcelFillElement excelFillElement,HttpServletRequest request, HttpServletResponse response){
+    public static void getWebExcelByfillWithTemplate(String targetFilename, ExcelFillElement excelFillElement, HttpServletRequest request, HttpServletResponse response){
         OutputStream outputStream = getOutputStream(targetFilename, request, response);
         fillWithTemplate(targetFilename,excelFillElement,outputStream);
     }
