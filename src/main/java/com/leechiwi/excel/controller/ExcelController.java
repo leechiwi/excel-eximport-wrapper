@@ -1,6 +1,7 @@
 package com.leechiwi.excel.controller;
 
 import com.leechiwi.excel.model.ExcelSheetElement;
+
 import com.leechiwi.excel.pojo.Test;
 import com.leechiwi.excel.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class ExcelController {
@@ -60,5 +63,10 @@ public class ExcelController {
     @GetMapping("/fill")
     public void fill(HttpServletRequest request, HttpServletResponse response,String ids){
         excelService.fillExcelData(request, response);
+    }
+    @GetMapping("/test")
+    @ResponseBody
+    public String test(HttpServletRequest request, HttpServletResponse response,String ids){
+        return "test";
     }
 }
