@@ -19,7 +19,7 @@ public class Zip {
             fileNames = new ArrayList<>();
             for(int i=0,len=streamList.size();i<len;i++){
                 StringBuilder sb=new StringBuilder();
-                fileNames.add(sb.append(i).append(ext).toString());
+                fileNames.add(sb.append(i).toString());
             }
         }
         if(streamList.size()!=fileNames.size()){
@@ -30,11 +30,12 @@ public class Zip {
         try {
             for (byte[] bytes : streamList) {
                 // 创建一个ZipEntry
-                zipOut.putNextEntry(new ZipEntry(fileNames.get(index)+".xlsx"));
+                zipOut.putNextEntry(new ZipEntry(fileNames.get(index)+ext));
                 // 将源文件的字节内容，写入zip压缩包
                 zipOut.write(bytes);
                 // 结束当前zipEntry
                 zipOut.closeEntry();
+                index++;
             }
             zipOut.finish();
             zipOut.close();

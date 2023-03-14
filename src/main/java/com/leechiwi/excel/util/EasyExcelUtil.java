@@ -127,7 +127,7 @@ public class EasyExcelUtil {
             }else{
                 filename = new String(filename.getBytes("UTF-8"), "ISO-8859-1");
             }
-            response.setContentType("application/vnd.ms-exce");
+            response.setContentType("application/vnd.ms-excel");
             response.setCharacterEncoding("utf-8");
             response.addHeader("Content-Disposition","filename="+filename+".xlsx");
             outputStream = response.getOutputStream();
