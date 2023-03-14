@@ -124,12 +124,12 @@ public class EasyExcelUtil {
     private static OutputStream getOutputStream(String filename,HttpServletRequest request,HttpServletResponse response){
         OutputStream outputStream=null;
         try {
-            String userAgent=request.getHeader("User-Agent");
+            /*String userAgent=request.getHeader("User-Agent");
             if(userAgent.contains("MSIE")||userAgent.contains("Trident")){
                 filename = URLEncoder.encode(filename, "UTF-8");
             }else{
                 filename = new String(filename.getBytes("UTF-8"), "ISO-8859-1");
-            }
+            }*/
             response.setContentType("application/vnd.ms-excel");
             response.setCharacterEncoding("utf-8");
             response.addHeader("Content-Disposition","attachment; filename=\""+java.net.URLEncoder.encode(filename+".xlsx", "UTF-8"));
