@@ -30,9 +30,9 @@ public class ExcelService {
     @Autowired
     private TestMapper testMapper;
     public List<List<Object>> getOriginData(){
-        List<List<Object>> result = new ArrayList<>();
+      List<List<Object>> result = new ArrayList<>();
         List<Object> list = new ArrayList<>();
-       /* Map<String,Object> map1=new HashMap<>();
+         /* Map<String,Object> map1=new HashMap<>();
         map1.put("index","1");
         map1.put("name","刘备");
         map1.put("code","玄德");
@@ -47,8 +47,8 @@ public class ExcelService {
         list.add(map1);
         list.add(map2);
         list.add(map3);
-        result.add(list);
-        //如果需要另一个table的数据则重复上面的工作然后result.add(list);*/
+        result.add(list);*/
+        //如果需要另一个table的数据则重复上面的工作然后result.add(list);
         Test t1=new Test();
         t1.setIndex(1);
         t1.setName("刘备");
@@ -144,7 +144,7 @@ public class ExcelService {
             return result;
         };
         excelSheetElement.setData(originData);
-        List<RowAndColSpan> splist = new ArrayList<>();
+        /*List<RowAndColSpan> splist = new ArrayList<>();
         RowAndColSpan rc1=new RowAndColSpan(3,4,0,0);
         splist.add(rc1);
         RowAndColSpan rc2=new RowAndColSpan(4,5,1,1);
@@ -172,8 +172,8 @@ public class ExcelService {
             }
         };
         List<CellWriteCallBack> CellWriteHandlerList = Stream.of(cellWriteCallBack1, cellWriteCallBack2).collect(Collectors.toList());
-        excelSheetElement.setCellWriteCallBacks(CellWriteHandlerList);
-        /*excelSheetElement.setFunction(function);
+        excelSheetElement.setCellWriteCallBacks(CellWriteHandlerList);*/
+       /* excelSheetElement.setFunction(function);
         List<List<String>> headList = new ArrayList<>();
         Arrays.asList("排行","名称","字").forEach(h->headList.add(Collections.singletonList(h)));
         excelSheetElement.setHead(headList);*/
@@ -184,7 +184,8 @@ public class ExcelService {
         //此处往下是多个excel打包成zip下载
         List<List<ExcelSheetElement>> excelList = new ArrayList<>();
         excelList.add(sheetList);
-        List<String> excelFileNames=Stream.of("第一个").collect(Collectors.toList());
+        excelList.add(sheetList);
+        List<String> excelFileNames=Stream.of("第一个","第二个").collect(Collectors.toList());
         EasyExcelUtil.exportWebExcelInZip(excelList,excelFileNames, response,"test");
     }
     public  List<Test> setWebExcelData(InputStream inputStream){
