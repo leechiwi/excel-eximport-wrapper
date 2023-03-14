@@ -22,6 +22,8 @@ import com.leechiwi.excel.listener.MyReadListener;
 import com.leechiwi.excel.model.ExcelFillElement;
 import com.leechiwi.excel.model.ExcelSheetElement;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +36,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class EasyExcelUtil {
+    private static final Logger logger = LoggerFactory.getLogger(EasyExcelUtil.class);
     public static void exportWebExcel(List<ExcelSheetElement> sheetList, HttpServletRequest request, HttpServletResponse response, String filename){
         OutputStream outputStream = getOutputStream(filename, request, response);
         writeToExcel(sheetList,outputStream);
@@ -132,9 +135,9 @@ public class EasyExcelUtil {
             response.addHeader("Content-Disposition","filename="+filename+".xlsx");
             outputStream = response.getOutputStream();
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error("getOutputStream不支持的编码格式",e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("getOutputStream获取流错误",e);
         }
         return outputStream;
     }
@@ -147,7 +150,7 @@ public class EasyExcelUtil {
             response.setHeader("Content-Disposition", "attachment;filename=" + filename+".zip");
             out = response.getOutputStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("getZipOutputStream获取流错误",e);
         }
         return out;
     }
@@ -228,7 +231,7 @@ public class EasyExcelUtil {
                 try {
                     templateFile=new FileInputStream(new File((String)file));
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    logger.error("fillWithTemplate文件未找到",e);
                 }
             }
         }else if(file instanceof InputStream){
@@ -237,7 +240,7 @@ public class EasyExcelUtil {
             try {
                 templateFile=new FileInputStream((File)file);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                logger.error("fillWithTemplate文件未找到",e);
             }
         }
         // 目标文件
