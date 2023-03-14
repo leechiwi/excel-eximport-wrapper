@@ -132,7 +132,7 @@ public class EasyExcelUtil {
             }
             response.setContentType("application/vnd.ms-excel");
             response.setCharacterEncoding("utf-8");
-            response.addHeader("Content-Disposition","filename="+filename+".xlsx");
+            response.addHeader("Content-Disposition","attachment; filename=\""+java.net.URLEncoder.encode(filename+".xlsx", "UTF-8"));
             outputStream = response.getOutputStream();
         } catch (UnsupportedEncodingException e) {
             logger.error("getOutputStream不支持的编码格式",e);
@@ -147,7 +147,7 @@ public class EasyExcelUtil {
             response.reset();
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment;filename=" + filename+".zip");
+            response.addHeader("Content-Disposition","attachment; filename=\""+java.net.URLEncoder.encode(filename+".zip", "UTF-8"));
             out = response.getOutputStream();
         } catch (IOException e) {
             logger.error("getZipOutputStream获取流错误",e);
